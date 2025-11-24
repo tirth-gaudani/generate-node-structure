@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Encrypt & Decrypt</title>
+  <link rel="shortcut icon" href="https://freepngimg.com/save/16205-padlock-high-quality-png/256x256"
+    type="image/x-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- JSON Viewer CSS -->
+  <link
+    href="https://www.jqueryscript.net/demo/jQuery-Plugin-For-Easily-Readable-JSON-Data-Viewer/json-viewer/jquery.json-viewer.css"
+    type="text/css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --secondary-color: #10b981;
+      --secondary-hover: #059669;
+      --danger-color: #ef4444;
+      --danger-hover: #dc2626;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-color);
+      background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .main-container {
+      background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      padding: 3rem;
+      width: 95%;
+      max-width: 1800px;
+      /* Increased for full width */
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .main-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+
+    h1 {
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2.5rem;
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: -0.025em;
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-control {
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      padding: 1rem;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      background-color: #f9fafb;
+      resize: vertical;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+
+    .btn-group-custom {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .btn-custom {
+      border-radius: 12px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-custom:active {
+      transform: translateY(0);
+    }
+
+    .btn-encrypt {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-encrypt:hover {
+      background-color: var(--primary-hover);
+      color: white;
+    }
+
+    .btn-decrypt {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .btn-decrypt:hover {
+      background-color: var(--secondary-hover);
+      color: white;
+    }
+
+    .btn-clear {
+      background-color: white;
+      color: var(--danger-color);
+      border: 2px solid var(--danger-color);
+    }
+
+    .btn-clear:hover {
+      background-color: #fef2f2;
+      color: var(--danger-hover);
+    }
+
+    .result-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .result-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #d1d5db;
+    }
+
+    .card-header-custom {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f9fafb;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .card-title-custom {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .copy-btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: 8px;
+      font-weight: 500;
+      border: 1px solid var(--border-color);
+      background: white;
+      color: var(--text-main);
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background-color: #f3f4f6;
+      border-color: #d1d5db;
+    }
+
+    .card-body-custom {
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      word-break: break-all;
+      min-height: 200px;
+      /* Increased height for better full-width look */
+      background-color: #fff;
+      border-radius: 0 0 16px 16px;
+      flex-grow: 1;
+      overflow-y: auto;
+      max-height: 600px;
+      /* Increased max-height */
+    }
+
+    /* JSON Viewer Customization */
+    .json-viewer {
+      color: var(--text-main);
+      text-align: left;
+    }
+
+    ul.json-dict,
+    ol.json-array {
+      list-style-type: none;
+      margin: 0;
+      padding-left: 1.5rem;
+      border-left: 1px dashed var(--border-color);
+    }
+
+    .json-string {
+      color: #059669;
+    }
+
+    .json-literal {
+      color: #4f46e5;
+      font-weight: 600;
+    }
+
+    .json-key {
+      color: #db2777;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .main-container {
+        padding: 1.5rem;
+        width: 100%;
+      }
+
+      .btn-group-custom {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .btn-custom {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="main-container">
+    <h1><i class="bi bi-shield-check me-2" style="color: var(--primary-color);"></i>Secure Encrypt & Decrypt</h1>
+
+    <div class="mb-5">
+      <label for="inputText" class="form-label">Input Text</label>
+      <textarea class="form-control" id="inputText" rows="6"
+        placeholder="Paste your text here to encrypt or decrypt..."></textarea>
+    </div>
+
+    <div class="btn-group-custom">
+      <button onclick="encryptionAPI()" class="btn btn-custom btn-encrypt">
+        <i class="bi bi-lock-fill"></i> Encrypt Data
+      </button>
+      <button onclick="decryptionAPI()" class="btn btn-custom btn-decrypt">
+        <i class="bi bi-unlock-fill"></i> Decrypt Data
+      </button>
+      <button onclick="clearContents('inputText')" class="btn btn-custom btn-clear">
+        <i class="bi bi-trash"></i> Clear All
+      </button>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="result-card">
+          <div class="card-header-custom">
+            <span class="card-title-custom">Encrypted Output / Hash</span>
+            <button class="btn copy-btn" onclick="copyToClipboard('#responseData')" title="Copy to Clipboard">
+              <i class="bi bi-clipboard"></i> Copy
+            </button>
+          </div>
+          <div class="card-body-custom" id="responseData"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="result-card">
+          <div class="card-header-custom">
+            <span class="card-title-custom">Decrypted / Original Text</span>
+            <button class="btn copy-btn" onclick="copyToClipboard('#orignalData')" title="Copy to Clipboard">
+              <i class="bi bi-clipboard"></i> Copy
+            </button>
+          </div>
+          <div class="card-body-custom">
+            <div id="orignalData"></div>
+            <div id="jsonRenderer" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5 text-muted" style="font-size: 0.8rem;">
+      <p class="mb-0">&copy; 2025 Secure Encrypt. Designed for performance & security.</p>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JSON Viewer JS -->
+  <script
+    src="https://www.jqueryscript.net/demo/jQuery-Plugin-For-Easily-Readable-JSON-Data-Viewer/json-viewer/jquery.json-viewer.js"></script>
+
+  <script>
+    function copyToClipboard(element) {
+      var $temp = $("<input>");
+      $("body").append($temp);
+      // If the element is hidden (like #orignalData when JSON is shown), .text() still retrieves content
+      $temp.val($(element).text()).select();
+      document.execCommand("copy");
+      $temp.remove();
+
+      // Visual feedback
+      const btn = $(`button[onclick="copyToClipboard('${element}')"]`);
+      const originalHtml = btn.html();
+      btn.html('<i class="bi bi-check2"></i> Copied!');
+      btn.css('color', 'var(--secondary-color)');
+      btn.css('border-color', 'var(--secondary-color)');
+
+      setTimeout(() => {
+        btn.html(originalHtml);
+        btn.css('color', '');
+        btn.css('border-color', '');
+      }, 1500);
+    }
+
+    function clearContents(containerid) {
+      document.getElementById(containerid).value = "";
+      document.getElementById("responseData").innerText = "";
+      document.getElementById("orignalData").innerText = "";
+      $('#jsonRenderer').empty().hide();
+      $('#orignalData').show();
+    }
+
+    function decryptionAPI() {
+      let textValue = document.getElementById("inputText").value;
+      if (!textValue) return;
+
+      let apiEndpoint = 'http://localhost:3000/api/enc_dec/decryption';
+
+      fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: textValue
+      })
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("responseData").innerText = textValue;
+
+          try {
+            // Try to parse as JSON
+            const jsonObject = JSON.parse(data);
+
+            // If successful, it's JSON
+            // Populate hidden orignalData for copy functionality with pretty printed JSON
+            document.getElementById("orignalData").innerText = JSON.stringify(jsonObject, null, 4);
+            $('#orignalData').hide();
+
+            // Render JSON viewer
+            $('#jsonRenderer').show().jsonViewer(jsonObject, { collapsed: false, withQuotes: true, withLinks: false });
+          } catch (e) {
+            // Not valid JSON, treat as plain text
+            document.getElementById("orignalData").innerText = data;
+            $('#orignalData').show();
+            $('#jsonRenderer').hide();
+          }
+        })
+        .catch(error => {
+          console.error('Error----->>>  ', error);
+          alert("Decryption failed. Check console for details.");
+        });
+    }
+
+    function encryptionAPI() {
+      let textValue = document.getElementById("inputText").value;
+      if (!textValue) return;
+
+      let apiEndpoint = 'http://localhost:3000/api/enc_dec/encryption';
+
+      fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: textValue
+      })
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("orignalData").innerText = textValue;
+          document.getElementById("responseData").innerText = data;
+
+          // Reset views to plain text for consistency
+          $('#orignalData').show();
+          $('#jsonRenderer').hide();
+        })
+        .catch(error => {
+          console.error('Error----->>>  ', error);
+          alert("Encryption failed. Check console for details.");
+        });
+    }
+  </script>
+</body>
+
+</html>

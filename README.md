@@ -1,38 +1,47 @@
-# Node API Row Structure 🚀
+# 🚀 Generate Node Structure
+### The Ultimate Production-Ready Node.js & Express Boilerplate
 
-[![npm version](https://img.shields.io/npm/v/generate-node-structure.svg?style=flat-square)](https://www.npmjs.com/package/generate-node-structure)
+[![npm version](https://img.shields.io/npm/v/generate-node-structure.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/generate-node-structure)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js->=14-green.svg?style=flat-square)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js->=14-green.svg?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![Downloads](https://img.shields.io/npm/dt/generate-node-structure.svg?style=flat-square&color=orange)](https://www.npmjs.com/package/generate-node-structure)
 
-**Node API Row Structure** is a powerful, production-ready boilerplate for building scalable and modular RESTful APIs with Node.js, Express, and PostgreSQL. It comes pre-configured with essential features like authentication, security, logging, and API documentation, allowing you to focus on building your product.
+- Build scalable, secure, and high-performance REST APIs in seconds.
+- Stop wasting time on boilerplate code. Focus on building your product.
+
+[Report Bug](https://github.com/tirth-gaudani/generate-node-structure/issues) · [Request Feature](https://github.com/tirth-gaudani/generate-node-structure/issues)
 
 ---
 
-## 🌟 Features
+## 🌟 Why Choose This Boilerplate?
 
-- **🏗 Modular Architecture**: Organized structure for scalability and maintainability.
-- **🐘 PostgreSQL Integration**: Direct and efficient database interaction using `pg`.
-- **🔐 Authentication**: Complete auth system (Signup, Login, Logout, Password Reset) using JWT.
-- **🛡 Security First**:
-  - **CORS** configuration.
-  - **Rate Limiting** to prevent abuse.
-  - **Input Validation** with `Joi`.
-  - **Password Hashing** with `bcryptjs`.
-- **📝 API Documentation**: Integrated documentation generation with `node-api-document`.
-- **📧 Email Service**: Pre-configured `Nodemailer` setup.
-- **🐛 Error Tracking**: Integrated **Sentry** for real-time error monitoring.
-- **🌐 Localization**: Support for multiple languages with `localizify`.
-- **⚡ Performance**: Compression and optimized query structure.
+Starting a new Node.js project often involves setting up the same repetitive structure: Authentication, Database connection, Security headers, Error handling, etc. **Generate Node Structure** eliminates this hassle by providing a **battle-tested, production-ready foundation** instantly.
+
+Whether you are building a small MVP or a large-scale enterprise application, this structure scales with you.
+
+## ✨ Key Features
+
+| Feature | Description |
+| :--- | :--- |
+| **🏗 Modular Architecture** | Clean, organized folder structure designed for scalability and maintainability. |
+| **🐘 PostgreSQL Ready** | Pre-configured with `pg` for robust and efficient database interactions. |
+| **🔐 Complete Auth System** | JWT-based Authentication: Signup, Login, Logout, Password Reset & Email Verification. |
+| **🛡 Enterprise Security** | Secured with `Helmet`, `CORS`, Rate Limiting, and Input Validation (`Joi`). |
+| **📝 Auto Documentation** | Integrated API documentation generation with `node-api-document`. |
+| **📧 Email Service** | Ready-to-use email sending service with `Nodemailer` and EJS templates. |
+| **🐛 Real-time Monitoring** | Integrated **Sentry** for tracking errors and performance issues in real-time. |
+| **🌐 Localization (i18n)** | Built-in support for multiple languages using `localizify`. |
+| **⚡ High Performance** | Optimized query structure, compression, and best practices for speed. |
 
 ---
 
 ## 🚀 Getting Started
 
-You can easily generate a new project using `npx` or by installing the CLI globally.
+Launch your new project in under 30 seconds.
 
-### Option 1: Using npx (Recommended)
+### Option 1: The Fastest Way (npx)
 
-Run the following command to create a new project in your current directory:
+Run this command in your terminal where you want to create your project:
 
 ```bash
 npx generate-node-structure
@@ -40,13 +49,13 @@ npx generate-node-structure
 
 ### Option 2: Global Installation
 
-Install the CLI globally:
+Install the CLI globally to use it anytime:
 
 ```bash
 npm install -g generate-node-structure
 ```
 
-Then run the generator:
+Then generate a new project:
 
 ```bash
 create-node-structure
@@ -54,57 +63,65 @@ create-node-structure
 
 ---
 
-## 📂 Project Structure
+## 📂 Project Structure Overview
 
-The generated project follows a clean, modular structure:
+We follow a clean **Model-Service-Controller** pattern to keep concerns separated.
 
 ```text
 .
-├── bin/                # CLI scripts
-├── config/             # Configuration files (DB, etc.)
-├── enc_dec/            # Encryption/Decryption utilities
-├── languages/          # Localization files
-├── middleware/         # Express middleware (Auth, etc.)
-├── modules/            # API Modules (Controllers, Routes, Services)
-│   └── v1/             # Version 1 API
-├── scripts/            # Utility scripts (DB init, etc.)
-├── template/           # Template files
-├── tests/              # Test suites
-├── utils/              # Helper functions
-├── views/              # EJS views (Email templates, etc.)
-├── .env.example        # Environment variables example
-├── index.js            # Application entry point
-└── package.json        # Project dependencies
+├── bin/                # CLI entry point
+├── config/             # Database & App Configuration
+├── enc_dec/            # Encryption & Decryption Utilities
+├── languages/          # Localization (i18n) Files
+├── middleware/         # Custom Express Middleware (Auth, Error handling)
+├── modules/            # API Features (The heart of your app)
+│   └── v1/             # Versioned API
+│       ├── Auth/       # Authentication Module
+│       └── User/       # User Management Module
+├── scripts/            # Database initialization & utility scripts
+├── template/           # Project templates
+├── tests/              # Unit & Integration Tests
+├── utils/              # Shared Helper Functions
+├── views/              # Email Templates (EJS)
+├── .env.example        # Environment Variables Reference
+├── index.js            # App Entry Point
+└── package.json        # Dependencies & Scripts
 ```
 
 ---
 
 ## 🛠 Configuration
 
-1.  **Environment Variables**:
-    Copy `.env.example` to `.env` and update the values:
+### 1. Environment Variables
+Rename `.env.example` to `.env` and configure your secrets:
 
-    ```bash
-    cp .env.example .env
-    ```
+```bash
+cp .env.example .env
+```
 
-    Update your database credentials, JWT secrets, and Sentry DSN in the `.env` file.
+Open `.env` and fill in your details:
+- **Database Credentials** (Host, User, Password, DB Name)
+- **JWT Secret** (For secure token generation)
+- **Sentry DSN** (For error tracking)
+- **Email Credentials** (For sending system emails)
 
-2.  **Database Setup**:
-    Initialize your PostgreSQL database tables:
+### 2. Database Setup
+Initialize your PostgreSQL database tables with a single command:
 
-    ```bash
-    npm run db:init
-    ```
+```bash
+npm run db:init
+```
 
 ---
 
 ## 📜 Available Scripts
 
-- `npm start`: Start the production server.
-- `npm run dev`: Start the development server with `nodemon`.
-- `npm test`: Run tests using `jest`.
-- `npm run db:init`: Create database tables.
+| Script | Description |
+| :--- | :--- |
+| `npm start` | Starts the production server. |
+| `npm run dev` | Starts the development server with hot-reloading (`nodemon`). |
+| `npm test` | Runs the test suite using `jest`. |
+| `npm run db:init` | Creates necessary database tables. |
 
 ---
 
@@ -112,9 +129,9 @@ The generated project follows a clean, modular structure:
 
 - **Runtime**: [Node.js](https://nodejs.org/)
 - **Framework**: [Express.js](https://expressjs.com/)
-- **Database**: [PostgreSQL](https://www.postgresql.org/) (via `pg`)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
 - **Validation**: [Joi](https://joi.dev/)
-- **Authentication**: [JSON Web Token (JWT)](https://jwt.io/)
+- **Authentication**: [JWT](https://jwt.io/) & [Bcrypt.js](https://www.npmjs.com/package/bcryptjs)
 - **Logging**: [Sentry](https://sentry.io/)
 - **Documentation**: [node-api-document](https://www.npmjs.com/package/node-api-document)
 
@@ -122,20 +139,19 @@ The generated project follows a clean, modular structure:
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We love contributions! If you have ideas for improvements or find a bug, please open an issue or submit a pull request.
 
-1.  Fork the repository.
-2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4.  Push to the branch (`git push origin feature/AmazingFeature`).
-5.  Open a Pull Request.
+1.  Fork the repository
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-
-**Author**: Tirth Gaudani
+Made with ❤️ by [Tirth Gaudani](https://github.com/tirth-gaudani)
